@@ -1,21 +1,22 @@
 pipeline {
-    agent any
+    agent{
+        node{
+            label 'Slave 1'
+        }
+    }
 
     stages {
-        stage('Build') {
+        
+        stage('Sonarqube-Scanning') {
             steps {
-                 echo 'Building...'
+                script{
+                    withSonarQubeEnv('Local_Sonarqube){
+                        def scannerHome = tool 'Sonarqube_Scanner'
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing...'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying...'
-            }
-        }
+       
     }
 }
