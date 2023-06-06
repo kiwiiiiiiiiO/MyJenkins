@@ -1,7 +1,7 @@
-public class HelloWorld
+public class Message
 {
    public static void main(String[] args)
    {
-      System.out.println("My Message");  // Noncompliant
+      logger.log("My Message");
    }
 }
