@@ -7,16 +7,31 @@ pipeline {
 
     stages {
         
-        stage('Sonarqube-Scanning') {
+//         stage('Sonarqube-Scanning') {
+//             steps {
+//                 script{
+//                     withSonarQubeEnv('sonarqube-container'){
+//                         def scannerHome = tool 'LocalSonarQubeScanner'
+//                         sh "${scannerHome}/bin/sonar-scanner -X"
+//                     }
+//                 }
+//             }
+//         }
+        stage('SonarQube analysis') {
+//             tools {
+//                 jdk "jdk11" // the name you have given the JDK installation in Global Tool Configuration
+//             }
+            environment {
+                scannerHome = tool 'LocalSonarQubeScanner' // the name you have given the Sonar Scanner (in Global Tool Configuration)
+            }
             steps {
-                script{
-                    withSonarQubeEnv('sonarqube-container'){
-                        def scannerHome = tool 'LocalSonarQubeScanner'
-                        sh "${scannerHome}/bin/sonar-scanner -X"
-                    }
+                withSonarQubeEnv(installationName: 'sonarqube-container') {
+                    sh "${scannerHome}/bin/sonar-scanner -X"
                 }
             }
         }
        
     }
 }
+
+
